@@ -91,11 +91,39 @@ class Backend(QObject):
 
         # Check that char_to_replace_with is length 1 and valid OS file name character
 
+    def add_to_queue(self, starting_dir, queue, log, depth='--'):
+        for entry in os.scandir(starting_dir):
+            if entry.is_dir():
+                print('entry is dir: ' + depth + entry.path)
+                queue.append(entry.path)
+                log.write(depth + ' ' + entry.name + '\n')
+                self.add_to_queue(entry.path, queue, log, (depth + '--'))
+            elif entry.is_file():
+                print('entry is file: ' + depth + entry.path)
+                queue.append(entry.path)
+                log.write(depth + ' ' + entry.name + '\n')
 
     @Slot(int)
     def test_clicked(self, clicked):
         print("test clicked!")
         # Dry run: Output log file with changes
+
+        queue = []
+        log = open(self.log_file_location, "w+")
+        log.write('Starting directory: ' + self.starting_dir_text)
+        log.write('Directory tree replacement will be performed on:\n')
+        self.add_to_queue(self.starting_dir_text, queue, log)
+        for item in queue:
+            old_name = os.path.basename(item)
+            dir = os.path.dirname(item)
+            old_path = dir + os.sep + old_name
+            for char in self.chars_to_replace_list:
+                new_name = old_name.replace(char, self.char_to_replace_with)
+            new_path = dir + os.sep + new_name
+            log.write(old_name + ' --> ' + new_name + '\n')
+            print('we would call os.rename('+old_path+', '+new_path+')')
+        log.close()
+
 
     @Slot(int)
     def run_clicked(self, clicked):
@@ -107,6 +135,24 @@ class Backend(QObject):
         # Check if file or folder. If a folder, add contents to queue.
         # System move command to rename file. Replace characters in file name.
         # Log changes in a new line.
+        queue = []
+        log = open(self.log_file_location, "w+")
+        log.write('Starting directory: ' + self.starting_dir_text + '\n')
+        log.write('Directory tree replacement will be performed on:\n')
+        self.add_to_queue(self.starting_dir_text, queue, log)
+        for item in queue:
+            old_name = os.path.basename(item)
+            dir = os.path.dirname(item)
+            old_path = dir + os.sep + old_name
+            for char in self.chars_to_replace_list:
+                new_name = old_name.replace(char, self.char_to_replace_with)
+            new_path = dir + os.sep + new_name
+            try:
+                os.rename(old_path, new_path)
+                log.write(old_name + ' --> ' + new_name + '\n')
+            except IOError as err:
+                print(err)
+        log.close()
 
 
 
@@ -116,10 +162,10 @@ if __name__ == '__main__':
     backend = Backend()
 
     # These are unnecessary and we definitely want to remove the print()
-    backend.starting_dir_changed.connect(lambda text: print(backend.starting_dir_text))
-    backend.chars_to_replace_changed.connect(lambda text: print(backend.chars_to_replace_list))
-    backend.char_to_replace_with_changed.connect(lambda text: print(backend.char_to_replace_with_text))
-    backend.log_file_location_changed.connect(lambda text: print(backend.log_file_location_text))
+    #backend.starting_dir_changed.connect(lambda text: print(backend.starting_dir_text))
+    #backend.chars_to_replace_changed.connect(lambda text: print(backend.chars_to_replace_list))
+    #backend.char_to_replace_with_changed.connect(lambda text: print(backend.char_to_replace_with_text))
+    #backend.log_file_location_changed.connect(lambda text: print(backend.log_file_location_text))
 
     engine = QQmlApplicationEngine()
     current_path = os.path.abspath(os.path.dirname(__file__))

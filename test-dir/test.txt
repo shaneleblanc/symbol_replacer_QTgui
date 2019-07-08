@@ -1,0 +1,19 @@
+Starting directory: /home/shane/projects/symbol_replacer_QTgui/test-dirDirectory tree replacement will be performed on:
+-- logfi.txt
+-- Qarl.txt
+-- 1.TXT
+-- Quacka.html
+-- Q5abjkaj2k3--.asmr
+-- Qooble
+---- Q324
+------ file2.txt
+---- test-1Q2Q.txt
+-- log.txt
+-- logfile.txt
+-- logf.txt
+-- test.txt
+-- logggs2.txt
+-- Qing-Dynasty
+---- test-QQQ.txt
+-- logger.txt
+-- loggy.txt

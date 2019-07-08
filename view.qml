@@ -52,7 +52,7 @@ Window {
         width: 318
         height: 30
         onTextChanged: backend.starting_dir = starting_dir_textfield.text
-        placeholderText: qsTr("Text Field")
+        placeholderText: qsTr("ex: C:\\SomeDirsAreBiggerThanOthers")
     }
 
     TextField {
@@ -61,7 +61,7 @@ Window {
         y: 103
         width: 318
         height: 30
-        placeholderText: qsTr("Text Field")
+        placeholderText: qsTr("ex: ~?+$")
         onTextChanged: backend.chars_to_replace = chars_to_replace_textfield.text
     }
 
@@ -72,8 +72,8 @@ Window {
         width: 36
         height: 34
         maximumLength: 1
-        placeholderText: qsTr("Text Field")
-        onTextChanged: backend.char_to_replace_with = chars_to_replace_textfield.text
+        placeholderText: qsTr("ex: _")
+        onTextChanged: backend.char_to_replace_with = char_to_replace_with_textfield.text
     }
 
     Button {
@@ -100,7 +100,9 @@ Window {
         y: 225
         width: 318
         height: 30
-        placeholderText: qsTr("Text Field")
+        readOnly: false
+        placeholderText: qsTr("ex: C:\\im_a_log.txt")
+        onTextChanged: backend.log_file_location = log_file_textfield.text
     }
 }
 
