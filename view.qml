@@ -23,7 +23,7 @@ Window {
         id: element1
         x: 18
         y: 82
-        text: qsTr("Enter the characters to replace (comma seperated):")
+        text: qsTr("Enter the characters to replace (in a sequence):")
         font.pixelSize: 12
     }
 
@@ -72,7 +72,7 @@ Window {
         width: 36
         height: 34
         maximumLength: 1
-        placeholderText: qsTr("ex: _")
+        text: "_"
         onTextChanged: backend.char_to_replace_with = char_to_replace_with_textfield.text
     }
 

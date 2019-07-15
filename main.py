@@ -107,7 +107,7 @@ class Backend(QObject):
     def test_clicked(self, clicked):
         print("test clicked!")
         # Dry run: Output log file with changes
-
+        self.validate_fields()
         queue = []
         log = open(self.log_file_location, "w+")
         log.write('Starting directory: ' + self.starting_dir_text)
@@ -135,6 +135,7 @@ class Backend(QObject):
         # Check if file or folder. If a folder, add contents to queue.
         # System move command to rename file. Replace characters in file name.
         # Log changes in a new line.
+        self.validate_fields()
         queue = []
         log = open(self.log_file_location, "w+")
         log.write('Starting directory: ' + self.starting_dir_text + '\n')

@@ -1,0 +1,8 @@
+.idea/
+.idea/*
+main.pyproject.*
+build/
+dist/
+src/
+venv/
+target/
